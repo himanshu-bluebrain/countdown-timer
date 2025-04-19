@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: #f5f5f5;
+            text-align: center;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 0.5em;
+        }
+        p {
+            font-size: 2em;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Countdown Timer to 6:30 PM IST</h1>
+        <p id="timer">Loading...</p>
+    </div>
+
+    <script>
+        function countdown() {
+            const targetTime = new Date();
+            targetTime.setHours(18, 30, 0, 0); // 6:30 PM IST today
+
+            const now = new Date();
+            if (now > targetTime) {
+                // If the time has passed, set the target to tomorrow
+                targetTime.setDate(targetTime.getDate() + 1);
+            }
+
+            const interval = setInterval(() => {
+                const currentTime = new Date().getTime();
+                const distance = targetTime - currentTime;
+
+                if (distance <= 0) {
+                    document.getElementById("timer").innerText = "Time's up!";
+                    clearInterval(interval);
+                    return;
+                }
+
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById("timer").innerText = `${hours}h ${minutes}m ${seconds}s`;
+            }, 1000);
+        }
+
+        countdown();
+    </script>
+</body>
+</html>
